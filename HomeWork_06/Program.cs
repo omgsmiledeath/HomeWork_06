@@ -136,7 +136,7 @@ namespace HomeWork_06
 
         static void WriteGroupInFile(StreamWriter sr,List<uint> group)
         {
-
+            
         }
 
         static uint calcM(uint N)
