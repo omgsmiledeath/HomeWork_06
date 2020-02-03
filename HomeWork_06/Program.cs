@@ -83,36 +83,30 @@ namespace HomeWork_06
             //Console.WriteLine($"Сделал строку простых числел за {ts.TotalMilliseconds}");
 
             var tempDate1 = DateTime.Now;
-            //using (StreamWriter fs = new StreamWriter("1.txt",true))
-            //{
+            using (StreamWriter fs = new StreamWriter("1.txt"))
+            {
                 tempDate = DateTime.Now;
-                using (StreamWriter fs = new StreamWriter("1.txt", false))
+
                 fs.WriteLine(1);
-            using (StreamWriter fs = new StreamWriter("1.txt", true))
                 fs.WriteLine("2 ---");
-                using (StreamWriter fs1 = new StreamWriter("1.txt", true))
-                WriteGroupInFile(fs1, simpleMass);
+                WriteGroupInFile(fs, simpleMass);
                 //foreach (var e in simpleMass)
                 //{
                 //    fs.Write($"{e} ");
                 //}
                 ts = DateTime.Now.Subtract(tempDate);
                 Console.WriteLine($"Сделал и записал 2 группу за {ts.TotalMilliseconds}");
-            using (StreamWriter fs = new StreamWriter("1.txt", true))
                 fs.WriteLine();
                 uint M = calcM(end);
                 tempDate = DateTime.Now;
                 var secondGroup = calcSecondGroup(simpleMass, end);
-            using (StreamWriter fs = new StreamWriter("1.txt", true))
                 fs.WriteLine("3 ---");
-                using (StreamWriter fs1 = new StreamWriter("1.txt", true))
-                WriteGroupInFile(fs1, secondGroup);
-            //foreach (var e in secondGroup)
-            //{
-            //   fs.Write($"{e} ");
+                WriteGroupInFile(fs, secondGroup);
+                //foreach (var e in secondGroup)
+                //{
+                //   fs.Write($"{e} ");
 
-            //}
-            using (StreamWriter fs = new StreamWriter("1.txt", true))
+                //}
                 fs.WriteLine();
                 ts = DateTime.Now.Subtract(tempDate);
                 Console.WriteLine($"Сделал посчитал и записал 3 группу за {ts.TotalMilliseconds}");
@@ -126,16 +120,13 @@ namespace HomeWork_06
                     tempDate = DateTime.Now;
                     nextGroup = calcNextGroup(i, M, simpleMass, previousGroup, end);
                     Console.WriteLine($"{i}         Пошла запись");
-                using (StreamWriter fs = new StreamWriter("1.txt", true))
                     fs.WriteLine($"{i} ---");
-                    using (StreamWriter fs1 = new StreamWriter("1.txt", true))
-                        WriteGroupInFile(fs1, nextGroup);
-                //foreach (var e in nextGroup)
-                //{
-                //   fs.Write($"{e} ");
-                //   // Console.Write($"{e} ");
-                //}
-                using (StreamWriter fs = new StreamWriter("1.txt", true))
+                    WriteGroupInFile(fs, nextGroup);
+                    //foreach (var e in nextGroup)
+                    //{
+                    //   fs.Write($"{e} ");
+                    //   // Console.Write($"{e} ");
+                    //}
                     fs.WriteLine();
                     previousGroup = nextGroup;
                     nextGroup = null;
@@ -144,7 +135,7 @@ namespace HomeWork_06
                     ts = DateTime.Now.Subtract(tempDate);
                     Console.WriteLine($"Сделал посчитал и записал {i} группу за {ts.TotalMilliseconds}");
                 }
-            //}
+            }
             ts = DateTime.Now.Subtract(tempDate1);
             Console.WriteLine($"Заполнил все группы за {ts.TotalMilliseconds}");
             
