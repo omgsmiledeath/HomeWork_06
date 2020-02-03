@@ -78,50 +78,58 @@ namespace HomeWork_06
             uint[] intMass = masFil(end);
             var tempDate = DateTime.Now;
             var simpleMass = getSimpleMas(end, intMass);
-            TimeSpan ts = DateTime.Now.Subtract(tempDate);
-            Console.WriteLine($"Сделал строку простых числел за {ts.TotalMilliseconds}");
-           // List<uint>[] groups = new List<uint>[calcM(end)];
+            intMass = null;
+            TimeSpan ts;
+            //Console.WriteLine($"Сделал строку простых числел за {ts.TotalMilliseconds}");
+
             var tempDate1 = DateTime.Now;
             using (StreamWriter fs = new StreamWriter("1.txt"))
             {
                 tempDate = DateTime.Now;
-              //  groups[0] = new List<uint> {1};
-                fs.WriteLine(1);
 
-               // groups[1] = getSimpleMas(end, intMass);
-                foreach (var e in simpleMass)
-                {
-                    fs.Write($"{e} ");
-                }
+                fs.WriteLine(1);
+                fs.WriteLine("2 ---");
+                WriteGroupInFile(fs, simpleMass);
+                //foreach (var e in simpleMass)
+                //{
+                //    fs.Write($"{e} ");
+                //}
                 ts = DateTime.Now.Subtract(tempDate);
-                Console.WriteLine($"Сделал записал 1 группу за {ts.TotalMilliseconds}");
+                Console.WriteLine($"Сделал и записал 2 группу за {ts.TotalMilliseconds}");
                 fs.WriteLine();
                 uint M = calcM(end);
                 tempDate = DateTime.Now;
-                var secondGroup = calcSecondGroup(M, simpleMass, end);
-                foreach (var e in secondGroup)
-                {
-                   fs.Write($"{e} ");
+                var secondGroup = calcSecondGroup(simpleMass, end);
+                fs.WriteLine("3 ---");
+                WriteGroupInFile(fs, secondGroup);
+                //foreach (var e in secondGroup)
+                //{
+                //   fs.Write($"{e} ");
 
-                }
+                //}
                 fs.WriteLine();
                 ts = DateTime.Now.Subtract(tempDate);
-                Console.WriteLine($"Сделал посчитал и записал 2 группу за {ts.TotalMilliseconds}");
+                Console.WriteLine($"Сделал посчитал и записал 3 группу за {ts.TotalMilliseconds}");
                 List<uint> nextGroup = new List<uint>();
                 List<uint> previousGroup = secondGroup;
+                secondGroup = null;
                 Console.WriteLine(M);
-                for (uint i = 2; i <= M; i++)
+                for (uint i = 4; i <= M; i++)
                 {
+
                     tempDate = DateTime.Now;
                     nextGroup = calcNextGroup(i, M, simpleMass, previousGroup, end);
                     Console.WriteLine($"{i}         Пошла запись");
-                    foreach (var e in nextGroup)
-                    {
-                       fs.Write($"{e} ");
-                       // Console.Write($"{e} ");
-                    }
+                    fs.WriteLine($"{i} ---");
+                    WriteGroupInFile(fs, nextGroup);
+                    //foreach (var e in nextGroup)
+                    //{
+                    //   fs.Write($"{e} ");
+                    //   // Console.Write($"{e} ");
+                    //}
                     fs.WriteLine();
                     previousGroup = nextGroup;
+                    nextGroup = null;
                     //Console.WriteLine($"Закончил группу {i}");
                     //groups[i] = calcNextGroup(i,M, groups, end);
                     ts = DateTime.Now.Subtract(tempDate);
@@ -136,7 +144,11 @@ namespace HomeWork_06
 
         static void WriteGroupInFile(StreamWriter sr,List<uint> group)
         {
-            
+            foreach (var e in group)
+            {
+                sr.Write($"{e} ");
+            }
+           
         }
 
         static uint calcM(uint N)
@@ -197,7 +209,7 @@ namespace HomeWork_06
         }
 
 
-        static List<uint> calcSecondGroup(uint M, List<uint> simple, uint end)
+        static List<uint> calcSecondGroup(List<uint> simple, uint end)
         {
             List<uint> result = new List<uint>();
             for (int i = 0; i < simple.Count; i++)
@@ -206,10 +218,11 @@ namespace HomeWork_06
                 for (int j = i; j < simple.Count; j++)
                 {
                     //Console.Write($" groups[1][{i}]({groups[1][i]})  * groups[1][{j}]({groups[1][j]}) ");
-                    if (simple[i] * simple[j] < end)
+                    var fact = simple[i] * simple[j];
+                    if (fact < end)
                     {
                         // Console.WriteLine($"{groups[1][i] * groups[1][j]}");
-                        result.Add(simple[i] * simple[j]);
+                        result.Add(fact);
                     }
                     else break;
                 }
@@ -269,6 +282,7 @@ namespace HomeWork_06
             {
                 for (int j = i; j < prevGroup.Count; j++)
                 {
+                    //var fact = secGroup[i] * prevGroup[j];
                     //Console.Write($" groups[1][{i}]({groups[1][i]})  * groups[1][{j}]({groups[1][j]}) ");
                     if (secGroup[i] * prevGroup[j] <= end)
                     {
@@ -278,8 +292,6 @@ namespace HomeWork_06
                     else break;
                 }
             }
-
-            Console.WriteLine("Пошла сортировка");
             result.Sort();
             return result.Distinct().ToList();
         }
